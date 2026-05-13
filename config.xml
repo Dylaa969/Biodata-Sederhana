@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="org.apache.cordova.biodataadi" version="1.0.0" xmlns="w3.org" xmlns:cdv="apache.org">
+    <name>Biodata Adi</name>
+    <description>Aplikasi Biodata Adi berbasis Apache Cordova.</description>
+    <author email="dev@cordova.apache.org" href="apache.org">Apache Cordova Team</author>
+    
+    <content src="index.html" />
+    
+    <icon src="www/img/logo.png" />
+    
+    <!-- Pengaturan Durasi Splash Screen -->
+    <preference name="SplashScreen" value="screen" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="3000" />
+
+    <!-- Konfigurasi Khusus Android untuk Splash Screen -->
+    <platform name="android">
+        <!-- Mengatur logo kustom Anda di tengah splash screen -->
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/img/logo.png" />
+        <!-- Mengatur warna latar belakang splash screen (Contoh: Putih) -->
+        <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
+    </platform>
+
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+</widget>
