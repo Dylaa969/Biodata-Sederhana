@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Biodata Siswa Adi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>📋 Biodata Siswa</h1>
+    <p>SMKN 1 Padaherang </p>
+  </div>
+  <button class="btn-add" onclick="openForm()">+ Tambah</button>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="searchInput"
+    placeholder="🔍 Cari nama, NIS, atau kelas..."
+    oninput="renderList()" />
+</div>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="val" id="totalSiswa">0</div>
+    <div class="lbl">Total Siswa</div>
+  </div>
+  <div class="stat-box">
+    <div class="val" id="totalLaki">0</div>
+    <div class="lbl">Laki-laki</div>
+  </div>
+  <div class="stat-box">
+    <div class="val" id="totalPerem">0</div>
+    <div class="lbl">Perempuan</div>
+  </div>
+</div>
+
+<div id="list-view"></div>
+
+
+<div class="overlay" id="formOverlay" onclick="closeIfOutside(event, 'formOverlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="formTitle">Tambah Biodata</div>
+
+    <div class="section-label">Data Pribadi</div>
+
+    <div class="form-group">
+      <label>Nama Lengkap *</label>
+      <input type="text" id="f_nama" placeholder="Masukkan nama lengkap" oninput="filterHuruf(this)" />
+      <span class="err-msg">Nama hanya boleh huruf dan spasi</span>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>NIS * <small>(angka)</small></label>
+        <input type="text" id="f_nis" placeholder="Contoh: 2324001" oninput="filterAngka(this)" inputmode="numeric" />
+        <span class="err-msg">NIS hanya boleh angka</span>
+      </div>
+      <div class="form-group">
+        <label>NISN <small>(angka)</small></label>
+        <input type="text" id="f_nisn" placeholder="10 digit NISN" oninput="filterAngka(this)" inputmode="numeric" />
+        <span class="err-msg">NISN hanya boleh angka</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tempat Lahir</label>
+        <input type="text" id="f_ttl_tempat" placeholder="Kota lahir" />
+      </div>
+      <div class="form-group">
+        <label>Tanggal Lahir</label>
+        <input type="date" id="f_ttl_tgl" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Jenis Kelamin</label>
+        <select id="f_jk">
+          <option value="">Pilih</option>
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Agama</label>
+        <select id="f_agama">
+          <option value="">Pilih</option>
+          <option>Islam</option>
+          <option>Kristen</option>
+          <option>Katolik</option>
+          <option>Hindu</option>
+          <option>Buddha</option>
+          <option>Konghucu</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Golongan Darah</label>
+        <select id="f_goldar">
+          <option value="">Pilih</option>
+          <option>A</option><option>B</option><option>AB</option><option>O</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>No. HP <small>(12 digit)</small></label>
+        <input type="text" id="f_hp" placeholder="08xxxxxxxxxx" oninput="filterAngka(this)" inputmode="numeric" maxlength="12" />
+        <span class="err-msg">No. HP harus 12 digit angka</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" id="f_email" placeholder="email@contoh.com" oninput="validateEmail(this)" />
+      <span class="err-msg">Email harus mengandung @</span>
+    </div>
+
+    <div class="form-group">
+      <label>Alamat Lengkap</label>
+      <textarea id="f_alamat" placeholder="Jl. ... RT/RW ... Kel/Desa ... Kec ..."></textarea>
+    </div>
+
+    <div class="section-label">Data Sekolah</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Kelas</label>
+        <select id="f_kelas">
+          <option value="">Pilih</option>
+          <option>X</option><option>XI</option><option>XII</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Jurusan</label>
+        <select id="f_jurusan">
+          <option value="">Pilih Jurusan</option>
+          <option> PPLG</option>
+          <option> TJKT</option>
+          <option> OTO</option>
+          <option> ELKA</option>
+          <option> TKIN</option>
+          <option> TGP</option>
+          <option> BC</option>
+          <option> ULP</option>
+          <option> TPM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Tahun Masuk <small>(angka)</small></label>
+      <input type="text" id="f_tahun" placeholder="Contoh: 2023" oninput="filterAngka(this)" inputmode="numeric" maxlength="4" />
+      <span class="err-msg">Tahun masuk hanya boleh angka</span>
+    </div>
+
+    <div class="section-label">Data Orang Tua</div>
+
+    <div class="form-group">
+      <label>Nama Ayah Kandung</label>
+      <input type="text" id="f_ayah" placeholder="Nama ayah kandung" oninput="filterHuruf(this)" />
+      <span class="err-msg">Nama ayah hanya boleh huruf dan spasi</span>
+    </div>
+
+    <div class="form-group">
+      <label>Nama Ibu Kandung</label>
+      <input type="text" id="f_ibu" placeholder="Nama ibu kandung" oninput="filterHuruf(this)" />
+      <span class="err-msg">Nama ibu hanya boleh huruf dan spasi</span>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Pekerjaan Ayah</label>
+        <input type="text" id="f_kerja_ayah" placeholder="Pekerjaan" />
+      </div>
+      <div class="form-group">
+        <label>No. HP Ortu <small>(12 digit)</small></label>
+        <input type="text" id="f_hp_ortu" placeholder="08xxxxxxxxxx" oninput="filterAngka(this)" inputmode="numeric" maxlength="12" />
+        <span class="err-msg">No. HP harus 12 digit angka</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Alamat Orang Tua <small>(jika berbeda)</small></label>
+      <textarea id="f_alamat_ortu" placeholder="Kosongkan jika sama"></textarea>
+    </div>
+
+    <button class="btn-submit" onclick="simpanData()">💾 Simpan Biodata</button>
+    <button class="btn-cancel" onclick="closeOverlay('formOverlay')">Batal</button>
+  </div>
+</div>
+
+
+<div class="overlay" id="detailOverlay" onclick="closeIfOutside(event, 'detailOverlay')">
+  <div class="sheet" id="detailContent"></div>
+</div>
+
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="icon">🗑️</div>
+    <h3>Hapus Biodata?</h3>
+    <p>Data siswa ini akan dihapus permanen dan tidak bisa dikembalikan.</p>
+    <div class="confirm-btns">
+      <button class="btn-no"  onclick="closeOverlay('confirmOverlay')">Batal</button>
+      <button class="btn-yes" onclick="confirmDelete()">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="js/index.js"></script>
+</body>
+</html>
